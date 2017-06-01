@@ -1,0 +1,14 @@
+<md-chips ng-model="vm.ngModel" md-transform-chip="vm.transformChip($chip)" class="doctore-input-trend">
+    <md-chip-template title="{{ $chip.date | date:'yyyy-MM-dd' }}">
+        <span class="chip-name">{{ $chip.value }}</span>
+        <md-icon ng-show="$chip.date !== null">&#xE8DF;</md-icon>
+    </md-chip-template>
+    <button md-chip-remove ng-hide class="md-primary chip-button"></button>
+    <input
+        doctore-input-number-date
+        type="{{ vm.isNumberField ? 'number' : 'text' }}"
+        placeholder="{{ vm.isNumberField ? vm.numberLabel : 'yyyy-mm-dd' }}"
+        ng-value="vm.input"
+        class="some-testing"
+        >
+</md-chips>

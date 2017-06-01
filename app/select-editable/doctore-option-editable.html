@@ -1,0 +1,15 @@
+<md-select-header class="doctore-option-editable-header doctore-option-editable-first-child" ng-if="vm.isFirstChild">
+    <md-input-container class="doctore-option-editable-header-input-container">
+        <label></label>
+        <input ng-model="vm.add" type="text" ng-keydown="vm.onKeyDown($event);">
+    </md-input-container>
+    <md-button ng-click="vm.onClick($event)">Add <md-icon>&#xE147;</md-icon></md-button>
+</md-select-header>
+<md-option ng-value="opt" ng-repeat="opt in vm.doctoreSelectEditable.options | filter:vm.add">{{ opt }}</md-option>
+<md-select-header class="doctore-option-editable-header" ng-if="!vm.isFirstChild">
+    <md-input-container class="doctore-option-editable-header-input-container">
+        <label></label>
+        <input ng-model="vm.add" type="text" ng-keydown="vm.onKeyDown($event);">
+    </md-input-container>
+    <md-button ng-click="vm.onClick($event)">Add <md-icon>&#xE147;</md-icon></md-button>
+</md-select-header>

@@ -1,0 +1,19 @@
+
+.doctore-option-editable-header {
+    padding: 0px 10px;
+    margin: 0px;
+}
+
+.doctore-option-editable-header-input-container {
+    margin-top: 0px;
+    margin-bottom: 4px;
+}
+
+.doctore-option-editable-header .md-errors-spacer {
+    display:none
+}
+
+.doctore-option-editable-header-input-container .md-input {
+    padding: 0px !important;
+    margin: 0px !important;
+}

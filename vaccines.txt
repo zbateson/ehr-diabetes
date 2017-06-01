@@ -1,0 +1,26 @@
+Cholera
+Dengue
+Diphtheria
+Hepatitis A
+Hepatitis B
+Hepatitis E
+Haemophilus influenzae type b (Hib)
+Human papillomavirus (HPV)
+Influenza
+Japanese encephalitis
+Malaria
+Measles
+Meningococcal meningitis
+Mumps
+Pertussis
+Pneumococcal disease
+Poliomyelitis
+Rabies
+Rotavirus
+Rubella
+Tetanus
+Tick-borne encephalitis
+Tuberculosis
+Typhoid
+Varicella
+Yellow Fever

@@ -1,0 +1,185 @@
+body {
+    color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+}
+
+header {
+    padding: 20px 20px;
+    background-color: #DE3641;
+}
+
+header a:link,header a:visited {
+    text-decoration: none;
+    color: #fff;
+}
+
+.left-nav-subheader {
+    font-weight: bold !important;
+}
+
+.print-preview {
+    display: none;
+}
+
+.print-preview-dialog-content {
+    border: 1px solid #000;
+}
+
+.print-preview-content {
+    font: 12pt Georgia, "Times New Roman", Times, Serif;
+    line-height: 1.3em;
+}
+
+.print-preview-content table {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+.print-preview-content table, print-preview-content tr, .print-preview-content th, .print-preview-content td {
+    border: 1px solid #444;
+    border-collapse: collapse;
+}
+
+.print-preview-content table th {
+    font: bold 24pt helvetica;
+    line-height: 1.3em;
+    text-align: left;
+    padding: 10px;
+    background-color: #bbb !important;
+    color: #fff;
+    margin: 0px;
+}
+
+.print-preview-content table th span {
+    margin-top: 10px;
+    font: normal 14pt Georgia, "Times New Roman", Times, Serif;
+    float: right;
+    font-size: 0.6em;
+}
+
+.print-preview-content td {
+    padding: 5px 5px 5px 20px;
+    width: 25%;
+    vertical-align: top;
+}
+
+.print-preview-content td.rowspanning {
+    padding: 0px;
+    border: none;
+}
+
+.print-preview-content td.rowspanning table, .print-preview-content td.rowspanning tr:first-child td {
+    border-top: 0px;
+}
+
+.print-preview-content td.rowspanning table, .print-preview-content td.rowspanning table tr:last-child, .print-preview-content td.rowspanning tr:last-child td {
+    border-bottom: 0px;
+}
+
+.print-preview-content td.rowspanning table, .print-preview-content td.rowspanning tr, .print-preview-content td.rowspanning td {
+    border-left: none;
+    border-right: none;
+}
+
+.print-preview-content td .label {
+    font-size: 0.6em;
+    color: #aaa;
+    display: block;
+    position: relative;
+    left: -15px;
+}
+
+.print-preview-content td .value {
+    padding-top: 20px;
+}
+
+.chip-name {
+    padding-right: 4px;
+    font-size: 0.8em;
+}
+
+.chip-button {
+    background: none;
+    border: none;
+    padding: 4px 4px 4px 8px;
+}
+
+.pre-area {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    display: block;
+    min-height: 55px;
+    padding-top: 5px;
+}
+
+.dialog-print-preview {
+    border: 10px solid #666;
+    background: #fff;
+    padding: 60px 40px;
+}
+
+/** copied from materialjs input demo **/
+md-input-container .hint {
+    position: relative;
+    font-size: 12px;
+    line-height: 14px;
+    color: grey;
+    left: 2px;
+}
+
+fieldset {
+    border: 1px #ddd solid;
+    padding-top: 40px;
+}
+
+fieldset legend {
+    color: grey;
+    font-size: 14px;
+}
+
+@media print {
+
+    @page {
+        margin: 1cm 0.5cm;
+    }
+    body {
+        /*margin: 1cm 0.5cm;*/
+    }
+
+    .print-preview-content table th {
+        color: rgba(0, 0, 0, 0);
+        text-shadow: 0 0 0 #fff;
+    }
+    .print-preview-content td .label {
+        color: rgba(0, 0, 0, 0);
+        text-shadow: 0 0 0 #aaa;
+    }
+    .print-preview-content tr {
+        page-break-inside: avoid;
+    }
+
+    @media print and (-webkit-min-device-pixel-ratio:0) {
+        .print-preview-content table th {
+            color: #fff;
+            -webkit-print-color-adjust: exact;
+        }
+        .print-preview-content td .label {
+            color: #aaa;
+            -webkit-print-color-adjust: exact;
+        }
+    }
+
+    md-sidenav, .md-fab {
+        display: none !important;
+    }
+    .site-content-toolbar {
+        display: none !important;
+    }
+    .form-content {
+        display: none;
+    }
+    .print-preview {
+        display: block;
+    }
+}

@@ -1,0 +1,96 @@
+<html lang="en" data-ng-app="doctore" data-ng-controller="DoctoreController as doctore">
+<head>
+
+    <meta charset="utf-8">
+    <title>doctore.me - Endocrinology - initial visit patient form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.4/angular-material.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-aria.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-sanitize.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.4/angular-material.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" href="css/doctore.css">
+    <link rel="stylesheet" href="app/select-editable/doctore-option-editable.css">
+    <link rel="stylesheet" href="app/input-trend/doctore-input-trend.css">
+    <script src="app/doctore.module.js"></script>
+    <script src="app/age.filter.js"></script>
+    <script src="app/doctore.controller.js"></script>
+
+    <script src="app/select-editable/doctore-select-editable.directive.js"></script>
+    <script src="app/select-editable/doctore-option-editable.directive.js"></script>
+    <script src="app/select-editable/doctore-select-editable.controller.js"></script>
+    <script src="app/select-editable/doctore-option-editable.controller.js"></script>
+
+    <script src="app/doctore-constants.factory.js"></script>
+    <script src="app/input-number-date/doctore-input-number-date.directive.js"></script>
+    <script src="app/input-number-date/doctore-input-number-date.controller.js"></script>
+
+    <script src="app/input-trend/doctore-input-trend.directive.js"></script>
+    <script src="app/input-trend/doctore-input-trend.controller.js"></script>
+    <script src="app/endocrinology/initial-visit.controller.js"></script>
+
+</head>
+<body layout="row">
+    <md-sidenav
+        class="site-sidenav md-whiteframe-z2"
+        md-colors="{background:'primary-500'}"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-sm')"
+        data-ng-include="'app/layout/side-nav.html'">
+    </md-sidenav>
+    <div layout="column" tabIndex="-1" role="main" flex>
+        <md-toolbar md-colors="{background:'background-100'}" class="md-whiteframe-glow-z1 site-content-toolbar">
+
+          <div class="md-toolbar-tools docs-toolbar-tools" tabIndex="-1">
+            <md-button class="md-icon-button" ng-click="openMenu()" hide-gt-sm aria-label="Toggle Menu">
+              <md-icon md-colors="{background:'background-100'}">&#xE5D2;</md-icon>
+            </md-button>
+            <div layout="row" flex class="fill-height">
+              <h2 class="md-toolbar-item md-breadcrumb md-headline">
+                <span ng-if="menu.currentPage.name !== menu.currentSection.name">
+                  <span hide-sm hide-md>{{menu.currentSection.name}}</span>
+                  <span class="docs-menu-separator-icon" hide-sm hide-md style="transform: translate3d(0, 1px, 0)">
+                    <span class="md-visually-hidden">-</span>
+                    <md-icon  md-colors="{background:'background-100'}"
+                        aria-hidden="true"
+                        style="margin-top: -2px">&#xE5D2;</md-icon>
+                  </span>
+                </span>
+                <span class="md-breadcrumb-page">Endocrinology <md-icon md-colors="{background:'background-100'}">&#xE315;</md-icon> Initial Visit</span>
+              </h2>
+              <span flex></span> <!-- use up the empty space -->
+              <md-button class="md-icon-button" ng-click="doctore.openPrintPreview($event);"><md-icon md-colors="{background:'background-100'}">&#xE8A0;</md-icon></md-button>
+              <md-button class="md-icon-button" ng-click="doctore.print();"><md-icon md-colors="{background:'background-100'}">&#xE8AD;</md-icon></md-button>
+            </div>
+        </div>
+        </md-toolbar>
+        <md-content layout-padding data-ng-include="'app/endocrinology/initial-visit.html'">
+        </md-content>
+        <div style="visibility:hidden;">
+            <div id="printPreviewDialog" class="md-dialog-container">
+                <md-dialog aria-label="Print Preview" flex="100%">
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Print Preview</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="cancel()">
+                                <md-icon>&#xE5C9;</md-icon>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+                    <md-dialog-content class="print-preview-dialog-content"><div class="dialog-print-preview" ng-bind-html="doctore.printPreview"></div></md-dialog-content>
+                    <md-dialog-actions layout="row">
+                        <md-button>Print</md-button>
+                        <span flex></span>
+                        <md-button md-autofocus>Close <md-icon>&#xE5C9;</md-icon></md-button>
+                    </md-dialog-actions>
+                </md-dialog>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

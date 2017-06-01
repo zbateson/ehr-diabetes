@@ -1,0 +1,55 @@
+
+.doctore-input-trend input {
+    margin-top: 0px;
+    margin-left: 4px;
+}
+
+.doctore-input-trend md-chip {
+    margin-top: 5px;
+    padding: 0px 9px !important;
+    margin-right: 15px;
+    border-radius: 40px;
+}
+
+.doctore-input-trend md-chip::before {
+    content: " ";
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -1px;
+    height: 3px;
+    width: 5px;
+    background: #e0e0e0;
+}
+
+.doctore-input-trend md-chip::after {
+    content: " ";
+    margin-top: -10px;
+    margin-left: 5px;
+    border: 10px solid transparent;
+    border-left-color: #E0E0E0;
+    height: 0px;
+    width: 0px;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+}
+
+.doctore-input-trend md-chip:last-of-type {
+    margin-top: 0px;
+    padding: 5px 14px !important;
+    height: 42px;
+    margin-right: 0px;
+}
+
+.doctore-input-trend md-chip:last-of-type::before {
+    display:none;
+}
+
+.doctore-input-trend md-chip:last-of-type::after {
+    display:none;
+}
+
+.doctore-input-trend .chip-name,.doctore-input-trend .md-chip-content {
+    padding-right: 0px !important;
+}
