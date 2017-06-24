@@ -1,14 +1,32 @@
-<md-chips ng-model="vm.ngModel" md-transform-chip="vm.transformChip($chip)" class="doctore-input-trend">
-    <md-chip-template title="{{ $chip.date | date:'yyyy-MM-dd' }}">
-        <span class="chip-name">{{ $chip.value }}</span>
-        <md-icon ng-show="$chip.date !== null">&#xE8DF;</md-icon>
-    </md-chip-template>
-    <button md-chip-remove ng-hide class="md-primary chip-button"></button>
-    <input
-        doctore-input-number-date
-        type="{{ vm.isNumberField ? 'number' : 'text' }}"
-        placeholder="{{ vm.isNumberField ? vm.numberLabel : 'yyyy-mm-dd' }}"
-        ng-value="vm.input"
-        class="some-testing"
-        >
-</md-chips>
+<div class="doctore-input-trend">
+    <label>{{ vm.label }}</label>
+    <div class="chart-button" ng-if="vm.ngModel.length !== 0">
+        <button md-button ng-click="vm.showChart = !vm.showChart" area-label="Show/hide chart">
+            <md-icon ng-if="vm.showChart" style="font-size:14px;margin-left:-2px">&#xE3C9;</md-icon>
+            <md-icon ng-if="!vm.showChart" style="font-size:14px;margin-left:-2px">&#xE6E1;</md-icon>
+        </button>
+    </div>
+    <div ng-if="vm.showChart">
+        <canvas height="76" class="chart chart-line" chart-data="vm.chartData" chart-labels="vm.chartLabels">
+        </canvas>
+    </div>
+    <div ng-if="!vm.showChart">
+        <md-chips ng-model="vm.ngModel" md-transform-chip="vm.transformChip($chip)">
+            <md-chip-template title="{{ $chip.date | date:'yyyy-MM-dd' }}">
+                <span class="chip-name">{{ $chip.value }}</span>
+                <md-icon ng-show="$chip.date !== null">&#xE8DF;</md-icon>
+            </md-chip-template>
+            <button md-chip-remove ng-hide class="md-primary chip-button"></button>
+            <input
+                doctore-input-number-date
+                type="{{ vm.isNumberField ? 'number' : 'text' }}"
+                placeholder="{{ vm.isNumberField ? '' : 'yyyy-mm-dd' }}"
+                max="{{ vm.isNumberField ? vm.max : '' }}"
+                min="{{ vm.isNumberField ? vm.min : '' }}"
+                step="{{ vm.isNumberField ? vm.step : '' }}"
+                ng-value="vm.input"
+                flex
+                >
+        </md-chips>
+    </div>
+</div>

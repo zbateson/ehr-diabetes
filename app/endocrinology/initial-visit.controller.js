@@ -55,16 +55,16 @@
 
         /** @member {Array} */
         vm.hba1c = [];
-        /** @member {number} */
-        vm.fbs = null;
+        /** @member {Array} */
+        vm.fbs = [];
+        /** @member {Array} */
+        vm.ldl = [];
 
         /** @member {number} */
         vm.premeal = null;
         /** @member {number} */
         vm.postmeal = null;
 
-        /** @member {number} */
-        vm.ldl = null;
         /** @member {number} */
         vm.acr = null;
         /** @member {string} */

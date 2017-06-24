@@ -14,32 +14,44 @@
      * @desc
      * @memberof input-number-date
      */
-    DoctoreInputNumberDateDirective.$inject = [ '$timeout', '$doctoreConstants' ];
+    DoctoreInputNumberDateDirective.$inject = [ '$timeout', '$mdUtil', '$doctoreConstants' ];
     var $timeout;
+    var $mdUtil;
     var $constants
     var $vm;
 
-    function DoctoreInputNumberDateDirective($angularTimeout, $doctoreConstants) {
+    function DoctoreInputNumberDateDirective($angularTimeout, $angularMdUtil, $doctoreConstants) {
         $timeout = $angularTimeout;
+        $mdUtil = $angularMdUtil;
         $constants = $doctoreConstants;
         var directive = {
+            require: [ '^doctoreInputTrend', 'doctoreInputNumberDate' ],
             scope: {
                 input: '=ngValue',
                 inputType: '@type'
             },
             link: linkDirective,
             bindToController: true,
-            controller: 'DoctoreInputTrendController',
+            controller: 'DoctoreInputNumberDateController',
             controllerAs: 'vm'
         };
         return directive;
     }
 
     function linkDirective($scope, $element, $attributes, $controller, $transclude) {
-        $vm = $controller;
+        var parent = $controller[0];
+        $vm = $controller[1];
         $element.on('click', onClick);
         $element.on('focus', onFocus);
         $element.on('keydown', onKeyDown);
+
+        $element.on('focus', function() {
+            parent.setFocused(true);
+        });
+        $element.on('blur', function() {
+            parent.setFocused(false);
+            parent.setHasValue($element.val().length !== 0 || parent.ngModel.length !== 0);
+        });
     }
 
     function getSelectionRange(element) {
@@ -127,11 +139,26 @@
         });
     }
 
+    function validateDateInputValue() {
+        if (/^(\d){4}\-(\d){2}\-(\d){2}$/.test($vm.input)) {
+            var partValues = $vm.input.split('-');
+            var date = new Date($vm.input + 'T00:00:00');
+            if (date.getDate() !== partValues[1]) {
+                // month doesn't have that many days...
+                partValues[datePartIndex.year] = ('0000' + date.getFullYear()).slice(-4);
+                partValues[datePartIndex.month] = ('00' + (date.getMonth() + 1)).slice(-2);
+                partValues[datePartIndex.day] = ('00' + date.getDate()).slice(-2);
+                $vm.input = partValues.join('-');
+            }
+        }
+    }
+
     var PART_INCREMENT = false;
     var PART_DECREMENT = true;
 
-    function incrDecrRangePartValue(partIndex, incrOrDecr) {
+    function incrDecrRangePartValue(element, partIndex, incrOrDecr) {
 
+        element = angular.element(element);
         $vm.runningDateInput = '';
 
         var partValues = $vm.input.split('-');
@@ -148,30 +175,16 @@
             iValue = iValue + 1;
         }
 
-        if ((iValue === 13 && partIndex === datePartIndex.month)
-            || (iValue === 32 && partIndex === datePartIndex.day)) {
-            return;
+        if (iValue === 0
+            || (iValue === 13 && partIndex === datePartIndex.month)
+            || (iValue > 31 && partIndex === datePartIndex.day)) {
+            iValue = parseInt(strValue, 10);
         }
 
         strValue = ('0000' + iValue).slice(-strValue.length)
         partValues[partIndex] = strValue;
 
         var strDate = partValues.join('-');
-        if (/^(\d){4}\-(\d){2}\-(\d){2}$/.test(strDate)) {
-            var date = new Date(partValues.join('-') + 'T00:00:00');
-            if (date.getDate() !== partValues[datePartIndex.day]) {
-                // month doesn't have that many days...
-                if (partIndex === datePartIndex.day) {
-                    return;
-                } else {
-                    partValues[datePartIndex.year] = ('0000' + date.getFullYear()).slice(-4);
-                    partValues[datePartIndex.month] = ('00' + (date.getMonth() + 1)).slice(-2);
-                    partValues[datePartIndex.day] = ('00' + date.getDate()).slice(-2);
-                }
-            }
-        }
-
-        strDate = partValues.join("-");
         $vm.input = strDate;
     }
 
@@ -185,41 +198,41 @@
     }
 
     function onNumberKeyDown($event, number, partIndex) {
-        $vm.runningInput = $vm.runningInput + number;
+        $vm.runningDateInput = $vm.runningDateInput + number.toString();
         var partValues = $vm.input.split('-');
 
         if (partIndex === datePartIndex.year) {
             // don't ovewrite the value -- allows quicker changes of short dates
-            partValues[partIndex] = partValues[partIndex].slice(0, -$vm.runningInput.length) + $vm.runningInput;
+            partValues[partIndex] = partValues[partIndex].slice(0, -$vm.runningDateInput.length) + $vm.runningDateInput;
         } else {
-            partValues[partIndex] = ('00' + ($vm.runningInput)).slice(-2);
+            partValues[partIndex] = ('00' + ($vm.runningDateInput)).slice(-2);
         }
 
         $event.preventDefault();
         $event.stopPropagation();
 
         var selectNext = (
-            (partIndex === datePartIndex.year && $vm.runningInput.length === 4)
+            (partIndex === datePartIndex.year && $vm.runningDateInput.length === 4)
             || (partIndex === datePartIndex.month
-                && ($vm.runningInput.length === 2 || parseInt($vm.runningInput, 10) > 1))
+                && ($vm.runningDateInput.length === 2 || parseInt($vm.runningDateInput, 10) > 1))
         );
 
         $vm.input = partValues.join('-');
         if (selectNext) {
 
-            $vm.runningInput = '';
+            $vm.runningDateInput = '';
             $timeout(function() {
                 selectNextRange($event.target, partIndex);
-            });
+            }, 2);
             return;
 
-        } else if (partIndex === datePartIndex.day && ($vm.runningInput.length === 2 || parseInt($vm.runningInput, 10) > 3)) {
-            $vm.runningInput = '';
+        } else if (partIndex === datePartIndex.day && ($vm.runningDateInput.length === 2 || parseInt($vm.runningDateInput, 10) > 3)) {
+            $vm.runningDateInput = '';
         }
 
         $timeout(function() {
             setSelectionRange($event.target, partIndex, true);
-        });
+        }, 2);
     }
 
     function onKeyDown($event) {
@@ -235,6 +248,7 @@
 
         var partIndex = getSelectionRangePartIndex($event.target);
         var charCode = String.fromCharCode($event.keyCode);
+
         if ($constants.hasModifierKey($event)) {
             // disable select all
             if ($event.ctrlKey && $event.keyCode === 65) {
@@ -264,23 +278,23 @@
 
             $event.preventDefault();
             $event.stopPropagation();
-            incrDecrRangePartValue(partIndex, PART_INCREMENT);
+            incrDecrRangePartValue($event.target, partIndex, PART_INCREMENT);
 
         } else if ($event.keyCode === $constants.KEY_CODE.DOWN_ARROW) {
 
             $event.preventDefault();
             $event.stopPropagation();
-            incrDecrRangePartValue(partIndex, PART_DECREMENT);
+            incrDecrRangePartValue($event.target, partIndex, PART_DECREMENT);
 
         } else if ($event.keyCode === $constants.KEY_CODE.BACKSPACE
-            || $constants.KEY_CODE.DELETE) {
+            || $event.keyCode === $constants.KEY_CODE.DELETE) {
 
             setPartDefaultValue(partIndex);
 
         } else if ($event.keyCode === $constants.KEY_CODE.ENTER) {
 
             // allow default to be called, clear running input
-            $vm.runningInput = '';
+            $vm.runningDateInput = '';
             return true;
 
         } else if (isNaN(charCode)) {
@@ -296,7 +310,7 @@
 
         $timeout(function() {
             setSelectionRange($event.target, partIndex, true);
-        });
+        }, 2);
         return false;
     }
 

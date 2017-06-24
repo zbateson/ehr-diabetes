@@ -46,21 +46,16 @@
             </md-input-container>
         </div>
 
-        <input type="date" name="blah" />
         <div layout-gt-xs="row">
             <!-- min was 1, max was 30, step was 0.1 -->
 
-            <doctore-input-trend ng-model="visit.hba1c" number-label="HbA1C (%)">
+            <doctore-input-trend ng-model="visit.hba1c" label="HbA1C (%)" min="1" max="30" step="0.1" flex-gt-xs>
+            </doctore-input-trend>
+            <doctore-input-trend ng-model="visit.fbs" label="FBS (mmol/L)" min="100" step="5" flex-gt-xs>
+            </doctore-input-trend>
+            <doctore-input-trend ng-model="visit.ldl" label="LDL (mmol/L)" min="0.1" max="20" step="0.1" flex-gt-xs>
             </doctore-input-trend>
 
-            <md-input-container class="md-block" flex-gt-xs>
-                <label>FBS (mmol/L)</label>
-                <input type="number" step="0.1" name="fbs" ng-model="visit.fbs" min="100" />
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-xs>
-                <label>LDL (mmol/L)</label>
-                <input type="number" step="0.1" name="ldl" ng-model="visit.ldl" min="0.1" max="20" />
-            </md-input-container>
         </div>
         <div layout-gt-xs="row">
             <md-input-container class="md-block" flex-gt-xs>

@@ -20,15 +20,32 @@
         var directive = {
             scope: {
                 ngModel: '=',
-                numberLabel: '@'
+                label: '@',
+                min: '@',
+                max: '@',
+                step: '@'
             },
             templateUrl: 'app/input-trend/doctore-input-trend.html',
             transclude: true,
             bindToController: true,
+            link: linkDirective,
             controller: 'DoctoreInputTrendController',
             controllerAs: 'vm'
         };
         return directive;
+    }
+
+    function linkDirective($scope, $element, $attributes, $controller, $transclude) {
+        angular.element($element.children()[0]).on('click', function($event) {
+            var elm = angular.element($event.target);
+            while (elm.length !== 0 && elm[0] !== $element[0]) {
+                if (elm.prop('tagName') === 'md-chip') {
+                    return;
+                }
+                elm = elm.parent();
+            }
+            $element.find('input').focus();
+        });
     }
 
 })();

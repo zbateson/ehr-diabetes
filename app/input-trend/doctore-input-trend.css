@@ -1,7 +1,62 @@
 
+.doctore-input-trend {
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.doctore-input-trend .chart-button {
+    float: right;
+}
+
+.doctore-input-trend label {
+    position: absolute;
+    margin-top: 18px;
+    margin-left: 2px;
+    color: #949494;
+}
+
+.doctore-input-focused label {
+    margin-top: -14px;
+    color: #3d4ead;
+    font-size: 0.7em;
+}
+
+.doctore-input-has-value label {
+    margin-top: -14px;
+    font-size: 0.7em;
+}
+
+.doctore-input-trend .chart-button button {
+    position: absolute;
+    border: 1px solid #ccc;
+    padding: 0px;
+    margin: 0px;
+    min-height: 0px;
+    min-width: 0px;
+    height: 20px;
+    width: 20px;
+    overflow: hidden;
+    padding-top: 2px;
+    line-height: 14px;
+    margin-left: -20px;
+}
+
 .doctore-input-trend input {
-    margin-top: 0px;
-    margin-left: 4px;
+    margin: 0px 0px 0px 2px;
+    height: 0px !important;
+    width: 100px;
+}
+
+.doctore-input-focused input {
+    margin-bottom: 0px;
+    height: 34px !important;
+}
+
+.doctore-input-trend .md-chips {
+    padding-bottom: 0px;
+    min-height: 42px;
 }
 
 .doctore-input-trend md-chip {
