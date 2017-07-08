@@ -14,8 +14,8 @@
      * @desc
      * @memberof input-trend
      */
-    DoctoreInputTrendController.$inject = [ '$filter', '$element' ];
-    function DoctoreInputTrendController($filter, $element) {
+    DoctoreInputTrendController.$inject = [ '$filter' ];
+    function DoctoreInputTrendController($filter) {
 
         /** View Model **/
         var vm = this;
@@ -39,8 +39,29 @@
         /** @member {boolean} true if the chart canvas should be shown */
         vm.showChart = false;
 
-        vm.chartData = [1, 2, 3];
-        vm.chartLabels = ['Jan', 'Feb', 'March'];
+        vm.chartData = [[]];
+        vm.chartLabels = [];
+        vm.chartOptions = {
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    type: 'time',
+                    time: {
+                        tooltipFormat: 'll'
+                    },
+                }]
+            },
+            hover: {
+                mode: 'single'
+            }
+        };
+
+        /** @member {booelan} true if the input field has focus */
+        vm.hasFocus = false;
+        /** @member {boolean} true if the input field has a value */
+        vm.hasValue = false;
 
         vm.transformChip = transformChip;
 
@@ -89,23 +110,23 @@
         }
 
         function generateChartData() {
-            vm.chartData = [];
+            vm.chartData = [[]];
             vm.chartLabels = [];
             for (var i = 0; i < vm.ngModel.length; ++i) {
                 var lastDate = (i < 1) ? null : vm.ngModel[i - 1].date;
                 var nextDate = (i === vm.ngModel.length - 1) ? null : vm.ngModel[i + 1].date;
                 var part = vm.ngModel[i];
-                vm.chartData.push(part.value);
-                vm.chartLabels.push(getLabelForDate(part.date, lastDate, nextDate));
+                vm.chartData[0].push(part.value);
+                vm.chartLabels.push(part.date || new Date());
             }
         }
 
         function setFocused(isFocused) {
-            $element.toggleClass('doctore-input-focused', !!isFocused);
+            vm.hasFocus = isFocused;
         }
 
         function setHasValue(hasValue) {
-            $element.toggleClass('doctore-input-has-value', !!hasValue);
+            vm.hasValue = hasValue;
         }
 
         function transformChip(input) {

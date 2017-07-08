@@ -14,8 +14,8 @@
      * @desc
      * @memberof doctore
      */
-    DoctoreController.$inject = ['$document', '$element', '$mdDialog'];
-    function DoctoreController($document, $element, $mdDialog) {
+    DoctoreController.$inject = ['$document', '$element', '$sce', '$mdDialog'];
+    function DoctoreController($document, $element, $sce, $mdDialog) {
 
         // ViewModel
         var vm = this;
@@ -26,7 +26,13 @@
         ////////////////////////////
 
         function openPrintPreview(ev) {
-            vm.printPreview = $element.find('.print-preview').html();
+            var html = $element.find('.print-preview').html();
+            var canvases = $element.find('.print-preview-charts').find('canvas');
+            angular.forEach(canvases, function(canvas) {
+                html += "<img src=\"" + canvas.toDataURL() + "\" width=\"100%\""
+                    + " height=\"" + canvas.height + "\" />";
+            });
+            vm.printPreview = html;
             $mdDialog.show({
                 contentElement: '#printPreviewDialog',
                 parent: $document.find('body'),

@@ -14,18 +14,15 @@
      * @desc
      * @memberof input-number-date
      */
-    DoctoreInputNumberDateDirective.$inject = [ '$timeout', '$mdUtil', '$doctoreConstants' ];
+    DoctoreInputNumberDateDirective.$inject = [ '$timeout', '$doctoreConstants' ];
     var $timeout;
-    var $mdUtil;
     var $constants
-    var $vm;
 
-    function DoctoreInputNumberDateDirective($angularTimeout, $angularMdUtil, $doctoreConstants) {
+    function DoctoreInputNumberDateDirective($angularTimeout, $doctoreConstants) {
         $timeout = $angularTimeout;
-        $mdUtil = $angularMdUtil;
         $constants = $doctoreConstants;
         var directive = {
-            require: [ '^doctoreInputTrend', 'doctoreInputNumberDate' ],
+            require: '^doctoreInputTrend',
             scope: {
                 input: '=ngValue',
                 inputType: '@type'
@@ -38,13 +35,23 @@
         return directive;
     }
 
+    // vm updated for current event
+    var $vm = null;
     function linkDirective($scope, $element, $attributes, $controller, $transclude) {
-        var parent = $controller[0];
-        $vm = $controller[1];
-        $element.on('click', onClick);
-        $element.on('focus', onFocus);
-        $element.on('keydown', onKeyDown);
+        $element.on('click', function($event) {
+            $vm = $scope.vm;
+            return onClick($event);
+        });
+        $element.on('focus', function($event) {
+            $vm = $scope.vm;
+            return onFocus($event);
+        });
+        $element.on('keydown', function($event) {
+            $vm = $scope.vm;
+            return onKeyDown($event);
+        });
 
+        var parent = $controller;
         $element.on('focus', function() {
             parent.setFocused(true);
         });

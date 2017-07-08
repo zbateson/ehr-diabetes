@@ -106,6 +106,12 @@
         /** @member {number} */
         vm.height = 140;
 
+        vm.normalThyroid = true;
+        vm.clearChest = true;
+        vm.heartSounds = true;
+        vm.benignAbdomen = true;
+        vm.noFocalNeurological = true;
+
         /** @member {string} */
         vm.impression = null;
 
@@ -115,6 +121,41 @@
         vm.complications = [];
         vm.additionalOptions = [];
         vm.selectAdd = "";
+
+        vm.getTrendChartValues = getTrendChartValues;
+        vm.getTrendChartLabels = getTrendChartLabels;
+
+        vm.hba1cChartOptions = {
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    type: 'time',
+                    time: {
+                        tooltipFormat: 'll'
+                    },
+                }],
+                yAxes: [{
+                    gridLines: {
+                        drawBorder: false,
+                        color: [null, null, null, null, null, null, null, null, '#88CC88']
+                    },
+                    ticks: {
+                        min: 0,
+                        max: 30,
+                        stepSize: 3
+                    }
+                }]
+            },
+            hover: {
+                mode: 'single'
+            },
+            title: {
+                display: true,
+                text: 'HbA1C (%)'
+            }
+        };
 
         vm.selectAddButton = function() {
             var value = $.trim(vm.selectAdd);
@@ -136,5 +177,44 @@
                 return false;
             }
         };
+
+        function getTrendArrayValue(name) {
+            var calculated = "";
+            if (vm[name]) {
+                vm[name].forEach(function(val) {
+                    calculated += val.value + val.date;
+                });
+            }
+            return calculated;
+        }
+
+        function getTrendChartObjectFor(name) {
+            return {
+                value: getTrendArrayValue(name),
+                chart: [vm[name].map(function(val) {
+                    return val.value;
+                })],
+                label: vm[name].map(function(val) {
+                    return val.date;
+                })
+            };
+        }
+
+        var trendValues = {};
+        function getTrendChartValues(name) {
+            var part = trendValues[name];
+            if (!part || getTrendArrayValue(name) !== part.value || part.chart === null) {
+                part = trendValues[name] = getTrendChartObjectFor(name);
+            }
+            return part.chart;
+        }
+
+        function getTrendChartLabels(name) {
+            var part = trendValues[name];
+            if (!part || getTrendArrayValue(name) !== part.value || part.chart === null) {
+                part = trendValues[name] = getTrendChartObjectFor(name);
+            }
+            return part.label;
+        }
     }
 })();

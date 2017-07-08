@@ -1,4 +1,4 @@
-<div class="doctore-input-trend">
+<div class="doctore-input-trend" ng-class="{'doctore-input-focused': vm.hasFocus, 'doctore-input-has-value': vm.hasValue}">
     <label>{{ vm.label }}</label>
     <div class="chart-button" ng-if="vm.ngModel.length !== 0">
         <button md-button ng-click="vm.showChart = !vm.showChart" area-label="Show/hide chart">
@@ -7,8 +7,12 @@
         </button>
     </div>
     <div ng-if="vm.showChart">
-        <canvas height="76" class="chart chart-line" chart-data="vm.chartData" chart-labels="vm.chartLabels">
-        </canvas>
+        <canvas height="76"
+            class="chart chart-line"
+            chart-data="vm.chartData"
+            chart-labels="vm.chartLabels"
+            chart-options="vm.chartOptions"
+        ></canvas>
     </div>
     <div ng-if="!vm.showChart">
         <md-chips ng-model="vm.ngModel" md-transform-chip="vm.transformChip($chip)">
@@ -24,6 +28,7 @@
                 max="{{ vm.isNumberField ? vm.max : '' }}"
                 min="{{ vm.isNumberField ? vm.min : '' }}"
                 step="{{ vm.isNumberField ? vm.step : '' }}"
+                is-number-field="vm.isNumberField"
                 ng-value="vm.input"
                 flex
                 >

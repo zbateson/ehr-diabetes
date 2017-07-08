@@ -15,9 +15,10 @@
     margin-top: 18px;
     margin-left: 2px;
     color: #949494;
+    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.25s;
 }
 
-.doctore-input-focused label {
+.doctore-input-trend.doctore-input-focused label {
     margin-top: -14px;
     color: #3d4ead;
     font-size: 0.7em;

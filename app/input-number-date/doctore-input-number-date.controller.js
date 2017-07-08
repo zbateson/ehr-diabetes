@@ -20,17 +20,11 @@
         /** View Model **/
         var vm = this;
 
-        /** @member {string} input type */
+        /** @member {string} taken from directive scope */
+        vm.ngModel = '';
+
+        /** @member {string} input type (either number or text) */
         vm.inputType = null;
-        /** @member {string} */
-
-        /** @member {Date} max date value for date input */
-        vm.maxDateValue = new Date();
-        /** @member {Date} min date value for date input */
-        vm.minDateValue = new Date('1900-01-01T00:00:00');
-
-        /** @member {string} the value of the input field */
-        vm.input = '';
 
         /**
          * @member {string} the running value of the date input field -

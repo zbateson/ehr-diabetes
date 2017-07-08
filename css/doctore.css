@@ -21,6 +21,14 @@ header a:link,header a:visited {
     display: none;
 }
 
+.print-preview-charts canvas {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    margin-top:20px;
+    padding-right: 20px;
+}
+
 .print-preview-dialog-content {
     border: 1px solid #000;
 }
@@ -181,5 +189,8 @@ fieldset legend {
     }
     .print-preview {
         display: block;
+    }
+    .print-preview-charts canvas {
+        position: static;
     }
 }

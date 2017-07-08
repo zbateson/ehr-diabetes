@@ -47,15 +47,12 @@
         </div>
 
         <div layout-gt-xs="row">
-            <!-- min was 1, max was 30, step was 0.1 -->
-
             <doctore-input-trend ng-model="visit.hba1c" label="HbA1C (%)" min="1" max="30" step="0.1" flex-gt-xs>
             </doctore-input-trend>
             <doctore-input-trend ng-model="visit.fbs" label="FBS (mmol/L)" min="100" step="5" flex-gt-xs>
             </doctore-input-trend>
             <doctore-input-trend ng-model="visit.ldl" label="LDL (mmol/L)" min="0.1" max="20" step="0.1" flex-gt-xs>
             </doctore-input-trend>
-
         </div>
         <div layout-gt-xs="row">
             <md-input-container class="md-block" flex-gt-xs>
@@ -95,29 +92,34 @@
             </md-input-container>
         </div>
 
-        <md-chips ng-model="visit.medications.diabetes" placeholder="Add diabetes medications...">
-            <md-chip-template>
-                <span class="chip-name">{{$chip}}</span>
-            </md-chip-template>
-            <button md-chip-remove class="md-primary chip-button">
-                <md-icon>&#xE5C9;</md-icon>
-            </button>
-        </md-chips>
-
-        <md-chips ng-model="visit.medications.dyslipidemia" placeholder="Add dyslipidemia medications...">
-            <md-chip-template>
-                <span class="chip-name">{{$chip}}</span>
-            </md-chip-template>
-            <button md-chip-remove class="md-primary chip-button">
-                <md-icon>&#xE5C9;</md-icon>
-            </button>
-        </md-chips>
-
-        </md-input-container>
         <md-input-container class="md-block">
-            <label>Hyertension Medications</label>
+            <label>Diabetes Medications</label>
+            <md-chips ng-model="visit.medications.diabetes" placeholder="Add medications...">
+                <md-chip-template>
+                    <span class="chip-name">{{$chip}}</span>
+                </md-chip-template>
+                <button md-chip-remove class="md-primary chip-button">
+                    <md-icon>&#xE5C9;</md-icon>
+                </button>
+            </md-chips>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+            <label>Dyslipidemia Medications</label>
+            <md-chips ng-model="visit.medications.dyslipidemia" placeholder="Add medications...">
+                <md-chip-template>
+                    <span class="chip-name">{{$chip}}</span>
+                </md-chip-template>
+                <button md-chip-remove class="md-primary chip-button">
+                    <md-icon>&#xE5C9;</md-icon>
+                </button>
+            </md-chips>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+            <label>Hypertension Medications</label>
             <div ng-cloak>
-                <md-chips ng-model="visit.medications.hypertension">
+                <md-chips ng-model="visit.medications.hypertension" placeholder="Add medications...">
                     <md-chip-template>
                         <span class="chip-name">{{$chip}}</span>
                     </md-chip-template>
@@ -130,7 +132,7 @@
         <md-input-container class="md-block">
             <label>Other Medications</label>
             <div ng-cloak>
-                <md-chips ng-model="visit.medications.other" placeholder="Type here to add a medication">
+                <md-chips ng-model="visit.medications.other" placeholder="Add medications...">
                     <md-chip-template>
                         <span class="chip-name">{{$chip}}</span>
                     </md-chip-template>
@@ -151,7 +153,7 @@
             </md-input-container>
             <md-input-container class="md-block" flex-gt-xs>
                 <label>BMI (calculated)</label>
-                <input type="number" step="1" value="{{ (visit.weight / (2*(visit.height/100))) }}" readonly />
+                <input type="number" step="1" ng-value="{{ (visit.weight / (2*(visit.height/100))).toFixed(2) }}" readonly />
             </md-input-container>
         </div>
 
@@ -318,20 +320,19 @@
             </md-input-container>
             <md-input-container class="md-block" flex-gt-xs>
                 <label>Height (cm)</label>
-                <input type="number" step="1" name="qs" ng-model="visit.height" />
+                <input type="number" step="1" ng-model="visit.height" />
             </md-input-container>
             <md-input-container class="md-block" flex-gt-xs>
                 <label>BMI (calculated)</label>
-                <input type="number" step="1" name="qs" ng-model="visit.bmi" readonly />
+                <input type="number" step="1" ng-value="{{ (visit.weight / (2*(visit.height/100))).toFixed(2) }}" readonly />
             </md-input-container>
         </div>
 
-        <div><input type="checkbox" id="gland" checked="checked" /><label for="gland">&nbsp;Thyroid gland was normal in size and texture</label></div>
-        <div><input type="checkbox" id="chest" checked="checked" /><label for="chest">&nbsp;Chest was clear on auscultation</label></div>
-        <div><input type="checkbox" id="heart" checked="checked" /><label for="heart">&nbsp;Heart sounds were dual and physiological with no extra heart sounds or murmurs</label></div>
-        <div><input type="checkbox" id="abdomen" checked="checked" /><label for="abdomen">&nbsp;Abdomen was benign with no organomegaly</label></div>
-        <div><input type="checkbox" id="neurology" checked="checked" /><label for="neurology">&nbsp;There were no focal neurological findings</label></div>
-
+        <div><md-checkbox ng-model="visit.normalThyroid">Thyroid gland was normal in size and texture</md-checkbox></div>
+        <div><md-checkbox ng-model="visit.clearChest">Chest was clear on auscultation</md-checkbox></div>
+        <div><md-checkbox ng-model="visit.heartSounds">Heart sounds were dual and physiological with no extra heart sounds or murmurs</md-checkbox></div>
+        <div><md-checkbox ng-model="visit.benignAbdomen">Abdomen was benign with no organomegaly</md-checkbox></div>
+        <div><md-checkbox ng-model="visit.noFocalNeurological">There were no focal neurological findings</md-checkbox></div>
 
         <md-input-container class="md-block">
             <label>Impression</label>
@@ -358,11 +359,11 @@
                     <td class="rowspanning" rowspan="9">
                         <table>
                             <tr><td><span class="label">T2DM Since</span>&nbsp;{{ visit.t2dmDate | date:'yyyy-MM-dd' }}</td></tr>
-                            <tr><td><span class="label">HbA1C</span>&nbsp;{{ visit.hba1c.join(', ') }}</td></tr>
-                            <tr><td><span class="label">FBS</span>&nbsp;{{ visit.fbs }}</td></tr>
+                            <tr><td><span class="label">HbA1C</span>&nbsp;{{ visit.hba1c[visit.hba1c.length - 1].value }}</td></tr>
+                            <tr><td><span class="label">FBS</span>&nbsp;{{ visit.fbs[visit.fbs.length - 1].value }}</td></tr>
                             <tr><td><span class="label">SMBG pre-meal</span>&nbsp;{{ visit.premeal }}</td></tr>
                             <tr><td><span class="label">SMBG post-meal</span>&nbsp;{{ visit.postmeal }}</td></tr>
-                            <tr><td><span class="label">LDL</span>&nbsp;{{ visit.ldl }}</td></tr>
+                            <tr><td><span class="label">LDL</span>&nbsp;{{ visit.ldl[visit.ldl.length - 1].value }}</td></tr>
                             <tr><td><span class="label">Urine for ACR</span>&nbsp;{{ visit.acr }} ({{ visit.acrLevel }})</td></tr>
                             <tr><td><span class="label">Vitamin B12</span>&nbsp;{{ visit.b12 }}</td></tr>
                             <tr><td><span class="label">eGFR</span>&nbsp;{{ visit.egfr }}</td></tr>
@@ -477,5 +478,13 @@
                 </tr>
             </table>
         </div>
+    </div>
+    <div class="print-preview-charts">
+        <canvas height="100"
+            class="chart chart-line"
+            chart-data="visit.getTrendChartValues('hba1c')"
+            chart-labels="visit.getTrendChartLabels('hba1c')"
+            chart-options="visit.hba1cChartOptions"
+        ></canvas>
     </div>
 </div>

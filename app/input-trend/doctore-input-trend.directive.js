@@ -18,16 +18,16 @@
     DoctoreInputTrendDirective.$inject = [];
     function DoctoreInputTrendDirective() {
         var directive = {
-            scope: {
+            scope: true,
+            templateUrl: 'app/input-trend/doctore-input-trend.html',
+            transclude: true,
+            bindToController: {
                 ngModel: '=',
                 label: '@',
                 min: '@',
                 max: '@',
                 step: '@'
             },
-            templateUrl: 'app/input-trend/doctore-input-trend.html',
-            transclude: true,
-            bindToController: true,
             link: linkDirective,
             controller: 'DoctoreInputTrendController',
             controllerAs: 'vm'
@@ -39,7 +39,7 @@
         angular.element($element.children()[0]).on('click', function($event) {
             var elm = angular.element($event.target);
             while (elm.length !== 0 && elm[0] !== $element[0]) {
-                if (elm.prop('tagName') === 'md-chip') {
+                if (elm.prop('tagName').toLowerCase() === 'md-chip') {
                     return;
                 }
                 elm = elm.parent();
